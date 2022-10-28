@@ -33,5 +33,3 @@ pip install -r requirements.txt
 ## Visualização Exemplos
 
 - [Compras e Contratos](https://dados.mg.gov.br/dataset/compras_contratos) executar o comando `python compras_contratos/main.py` na raiz do repositório.
-
-
