@@ -10,6 +10,7 @@ resources = [x['value'] for x in despesas_dict['extras'] if x['key'] == 'resourc
 resources = json.loads(resources)
 dm_empenhos = [x for x in resources if x.startswith('dm_empenho_desp')]
 
+
 df = []
 for resource in dm_empenhos:
 	resouce_id = resources[resource]
