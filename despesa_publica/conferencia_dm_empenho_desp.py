@@ -10,16 +10,12 @@ resources = [x['value'] for x in despesas_dict['extras'] if x['key'] == 'resourc
 resources = json.loads(resources)
 dm_empenhos = [x for x in resources if x.startswith('dm_empenho_desp')]
 
-
 df = []
 for resource in dm_empenhos:
 	resouce_id = resources[resource]
 	resource_url = f'https://dados.mg.gov.br/dataset/{despesas_id}/resource/{resouce_id}/download/{resource}.csv.gz'
-	if isinstance(df, str):
-		df = pd.read_csv(resource_url, delimiter=";")
-	else:
-		resource_df = pd.read_csv(resource_url, delimiter=";")
-		df.append(resource_df)
+	resource_df = pd.read_csv(resource_url, delimiter=";")
+	df.append(resource_df)
 	print(f'{resource} data frame created.')	
 df = pd.concat(df)
 print(f'Concat data frames')
