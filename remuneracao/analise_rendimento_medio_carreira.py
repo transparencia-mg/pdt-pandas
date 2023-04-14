@@ -29,6 +29,7 @@ for resource in remuneracoes:
 	resource_df = resource_df.reset_index()
 	resource_df['year'] = year
 	resource_df['month'] = month
+	df.to_csv(file_name, sep='\t', encoding='utf-8')
 	df.append(resource_df)
 
 df = pd.concat(df)
