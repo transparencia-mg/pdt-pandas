@@ -2,7 +2,9 @@ from frictionless import Package
 import requests
 import json
 import pandas as pd
+import time
 
+start = time.time()
 conjunto = 'remuneracao-servidores-ativos'
 despesas_dataset = requests.get(f'https://dados.mg.gov.br/api/3/action/package_show?id={conjunto}')
 despesas_dataset = despesas_dataset.json()
@@ -14,9 +16,10 @@ datapackage = requests.get(datapackage_url)
 datapackage = datapackage.json()
 package = Package(datapackage)
 
-df = []
+# df = []
 for resource in remuneracoes:
 	resource_name = resource['url'].split('/')[-1].split('.')[0]
+	print(f'Start calculate avg of {resource_name} file')
 	split_resource_name = resource_name.split('-')
 	year = split_resource_name[1]
 	month = split_resource_name[2]
@@ -29,18 +32,17 @@ for resource in remuneracoes:
 	resource_df = resource_df.reset_index()
 	resource_df['year'] = year
 	resource_df['month'] = month
-	df.to_csv(file_name, sep='\t', encoding='utf-8')
-	df.append(resource_df)
+	file_name = f'remuneracao/analise_remuneracao_por_carreira/avg_month/{resource_name}.csv'
+	resource_df.to_csv(file_name, sep=',', encoding='utf-8')
+	end = time.time()
+	print(f'Time until now is: {end - start}')
+# 	df.append(resource_df)
 
-df = pd.concat(df)
-df_grouped = df.groupby('nmefet')
-df_grouped_salary_avg = df_grouped['rem_pos'].mean()
-result = df_grouped_salary_avg.sort_values(ascending=False)
-result = result.to_frame()
-result = result.reset_index()
-print(result)
-import ipdb; ipdb.set_trace(context=10)
-
-
-
-	
+# df = pd.concat(df)
+# df_grouped = df.groupby('nmefet')
+# df_grouped_salary_avg = df_grouped['rem_pos'].mean()
+# result = df_grouped_salary_avg.sort_values(ascending=False)
+# result = result.to_frame()
+# result = result.reset_index()
+# print(result)
+# import ipdb; ipdb.set_trace(context=10)
